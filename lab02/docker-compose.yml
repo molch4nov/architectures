@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  user-service:
+    build: ./user-service
+    container_name: user-service
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./user-service:/app
+    restart: unless-stopped
+    environment:
+      - PORT=8000
+
+  service-service:
+    build: ./service-service
+    container_name: service-service
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./service-service:/app
+    restart: unless-stopped
+    environment:
+      - PORT=8001
+      - USER_SERVICE_URL=http://user-service:8000
+    depends_on:
+      - user-service 
