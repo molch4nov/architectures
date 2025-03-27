@@ -32,7 +32,7 @@
 
 ```bash
 # Сборка и запуск контейнеров
-docker-compose up -d
+docker-compose up
 ```
 
 ## Порты микросервисов
@@ -70,7 +70,7 @@ docker-compose up -d
 
 ## Тестовые учетные записи
 
-- Администратор: `admin@example.com` / `secret`
+- Администратор: `admin` / `secret`
 - Специалист: `specialist@example.com` / `password123`
 - Клиент: `customer@example.com` / `password123`
 
