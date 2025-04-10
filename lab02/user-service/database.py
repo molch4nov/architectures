@@ -1,10 +1,8 @@
 from uuid import UUID, uuid4
 from models.user import UserType
 
-# Хранилище данных в памяти
 users = {}
 
-# Создаем админа
 admin_id = uuid4()
 users[admin_id] = {
     "id": admin_id,
@@ -13,10 +11,9 @@ users[admin_id] = {
     "last_name": "User",
     "phone": "123456789",
     "type": UserType.admin,
-    "password": "secret"  # В реальном приложении храним хеш пароля
+    "password": "secret"
 }
 
-# Создаем тестового специалиста
 specialist_id = uuid4()
 users[specialist_id] = {
     "id": specialist_id,
@@ -28,7 +25,6 @@ users[specialist_id] = {
     "password": "password123"
 }
 
-# Создаем тестового клиента
 customer_id = uuid4()
 users[customer_id] = {
     "id": customer_id,

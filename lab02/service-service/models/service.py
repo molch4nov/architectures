@@ -8,7 +8,7 @@ class ServiceBase(BaseModel):
     description: str
     category: str
     price: Decimal
-    duration: int  # в минутах
+    duration: int
 
 class ServiceCreate(ServiceBase):
     specialist_id: UUID

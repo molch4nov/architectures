@@ -6,16 +6,12 @@ from passlib.context import CryptContext
 from uuid import uuid4
 from models.user import Base, UserORM, UserType
 
-# Get database URL from environment variable or use a default for development
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@localhost:5432/user_service_db")
 
-# Create SQLAlchemy engine
 engine = create_engine(DATABASE_URL)
 
-# Create session factory
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# Password hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 def get_db():
@@ -36,14 +32,11 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 
 def init_db():
     """Initialize the database with tables and test data if it doesn't exist"""
-    # Create all tables
     Base.metadata.create_all(bind=engine)
     
-    # Check if we have users, if not create test data
     db = SessionLocal()
     try:
         if db.query(UserORM).count() == 0:
-            # Create admin user
             admin = UserORM(
                 id=uuid4(),
                 email="admin",
@@ -54,7 +47,6 @@ def init_db():
                 password=hash_password("secret")
             )
             
-            # Create specialist user
             specialist = UserORM(
                 id=uuid4(),
                 email="specialist@example.com",
@@ -65,7 +57,6 @@ def init_db():
                 password=hash_password("password123")
             )
 
-            # Create customer user
             customer = UserORM(
                 id=uuid4(),
                 email="customer@example.com",
@@ -76,7 +67,6 @@ def init_db():
                 password=hash_password("password123")
             )
             
-            # Add to database
             db.add_all([admin, specialist, customer])
             db.commit()
             print("Database initialized with test data")

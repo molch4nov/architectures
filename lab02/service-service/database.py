@@ -2,15 +2,10 @@ from uuid import UUID, uuid4
 from decimal import Decimal
 import os
 
-# Получаем ID тестового специалиста
-# В реальном приложении IDs получались бы из реального сервиса пользователей
-# или из базы данных
 SPECIALIST_ID = uuid4()
 
-# Хранилище данных в памяти
 services = {}
 
-# Добавляем тестовые услуги
 service_id = uuid4()
 services[service_id] = {
     "id": service_id,
@@ -18,7 +13,7 @@ services[service_id] = {
     "description": "Полная уборка квартиры",
     "category": "Уборка",
     "price": Decimal("2000.00"),
-    "duration": 120,  # 2 часа
+    "duration": 120,
     "specialist_id": SPECIALIST_ID
 }
 
@@ -29,6 +24,6 @@ services[service_id2] = {
     "description": "Выгул собаки в парке",
     "category": "Уход за животными",
     "price": Decimal("500.00"),
-    "duration": 60,  # 1 час
+    "duration": 60,
     "specialist_id": SPECIALIST_ID
 } 

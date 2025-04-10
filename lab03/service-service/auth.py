@@ -5,10 +5,8 @@ import requests
 import os
 from typing import Optional
 
-# Get the user service URL from environment - for internal service communication
 USER_SERVICE_URL = os.environ.get("USER_SERVICE_URL", "http://user-service:8000")
 
-# Настройка OAuth2 с URL для браузера (Swagger UI)
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="http://localhost:8000/token")
 
 async def get_current_user(token: str = Depends(oauth2_scheme)):
@@ -19,7 +17,6 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
     )
 
     try:
-        # Валидируем токен через сервис пользователей (используя внутренний Docker URL)
         response = requests.post(
             f"{USER_SERVICE_URL}/validate-token", 
             headers={"Authorization": f"Bearer {token}"}

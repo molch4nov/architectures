@@ -9,23 +9,20 @@ import os
 app = FastAPI(title="User Service API", 
               description="Микросервис для управления пользователями и аутентификации")
 
-# Добавляем CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Разрешаем запросы с любых источников
+    allow_origins=["*"],  
     allow_credentials=True,
-    allow_methods=["*"],  # Разрешаем все методы
-    allow_headers=["*"],  # Разрешаем все заголовки
+    allow_methods=["*"],  
+    allow_headers=["*"],    
 )
 
-# Подключаем роутеры
 app.include_router(user_router.router)
 
 @app.get("/")
 async def root():
     return {"message": "User Service API"}
 
-# Создание OpenAPI спецификации и сохранение в файл
 def generate_openapi_json():
     openapi_schema = get_openapi(
         title=app.title,
@@ -37,7 +34,6 @@ def generate_openapi_json():
     with open("openapi.json", "w") as f:
         json.dump(openapi_schema, f)
 
-# Генерируем OpenAPI спецификацию при запуске приложения
 generate_openapi_json()
 
 if __name__ == "__main__":

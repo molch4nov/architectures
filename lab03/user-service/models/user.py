@@ -13,7 +13,6 @@ class UserType(str, Enum):
     specialist = "specialist"
     admin = "admin"
 
-# SQLAlchemy ORM Model
 class UserORM(Base):
     __tablename__ = "users"
     
@@ -25,7 +24,6 @@ class UserORM(Base):
     type = Column(SQLAEnum(UserType), nullable=False, default=UserType.customer)
     password = Column(String, nullable=False)
 
-# Pydantic Models
 class UserBase(BaseModel):
     email: str
     first_name: str

@@ -10,21 +10,19 @@ router = APIRouter(tags=["services"])
 
 @router.post("/services/", response_model=ServiceResponse, status_code=status.HTTP_201_CREATED)
 async def create_service(service: ServiceCreate, current_user: dict = Depends(get_current_user)):
-    # Проверяем права доступа: только специалист может создавать услуги
     if current_user["user_type"] != "specialist" and current_user["user_type"] != "admin":
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Only specialists can create services"
         )
     
-    # Если текущий пользователь не админ, он может создавать услуги только для себя
+
     if current_user["user_type"] != "admin" and str(current_user["user_id"]) != str(service.specialist_id):
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="You can create services only for yourself"
         )
     
-    # Создаем новую услугу
     service_id = uuid4()
     new_service = {
         "id": service_id,

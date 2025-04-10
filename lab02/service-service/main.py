@@ -8,23 +8,20 @@ import os
 app = FastAPI(title="Service Management API", 
               description="Микросервис для управления услугами")
 
-# Добавляем CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Разрешаем запросы с любых источников
+    allow_origins=["*"],  
     allow_credentials=True,
-    allow_methods=["*"],  # Разрешаем все методы
-    allow_headers=["*"],  # Разрешаем все заголовки
+    allow_methods=["*"],  
+    allow_headers=["*"], 
 )
 
-# Подключаем роутеры
 app.include_router(service_router.router)
 
 @app.get("/")
 async def root():
     return {"message": "Service Management API"}
 
-# Создание OpenAPI спецификации и сохранение в файл
 def generate_openapi_json():
     openapi_schema = get_openapi(
         title=app.title,
@@ -36,7 +33,6 @@ def generate_openapi_json():
     with open("openapi.json", "w") as f:
         json.dump(openapi_schema, f)
 
-# Генерируем OpenAPI спецификацию при запуске приложения
 generate_openapi_json()
 
 if __name__ == "__main__":
