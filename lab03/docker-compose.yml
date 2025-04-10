@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:14
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=user_service_db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  user-service:
+    build: ./user-service
+    container_name: user-service
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./user-service:/app
+    restart: unless-stopped
+    environment:
+      - PORT=8000
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/user_service_db
+    depends_on:
+      - postgres
+
+  service-service:
+    build: ./service-service
+    container_name: service-service
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./service-service:/app
+    restart: unless-stopped
+    environment:
+      - PORT=8001
+      - USER_SERVICE_URL=http://user-service:8000
+    depends_on:
+      - user-service
+
+volumes:
+  postgres_data: 
